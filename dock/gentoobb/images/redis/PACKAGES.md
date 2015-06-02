@@ -1,7 +1,7 @@
-### gentoobb/redis:20150507
-Built: Mon May 11 22:07:11 CEST 2015
+### gentoobb/redis:20150528
+Built: Mon Jun  1 05:52:48 CEST 2015
 
-Image Size: 11.47 MB
+Image Size: 11.5 MB
 #### Installed
 Package | USE Flags
 --------|----------
