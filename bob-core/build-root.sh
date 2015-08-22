@@ -34,14 +34,6 @@ copy_gcc_libs() {
     done
 }
 
-# copy glibc locale-archive from build container to custom root, locale-gen lacks support for custom ROOT
-# enables proper locale support via LANG ENV, default: en_US.UTF-8 UTF-8 incl. en_US ISO-8859-1
-# see glibc configure_bob() hook for details on how to configure different locales
-copy_locale_data() {
-    mkdir -p ${EMERGE_ROOT}/usr/lib64/locale
-    cp /usr/lib64/locale/locale-archive ${EMERGE_ROOT}/usr/lib64/locale/
-}
-
 extract_build_dependencies() {
     RESOURCE_SUFFIX="${1}"
     RESOURCE_VAR="${RESOURCE_SUFFIX}_FROM"
@@ -52,6 +44,18 @@ extract_build_dependencies() {
             fi
         done
     fi
+}
+
+# Find package version of given gentoo package atom
+#
+# Arguments:
+# 1: package_atom
+get_package_version()
+{
+    local PACKAGE="${1}"
+    exec 2>/dev/null
+    echo $(emerge -p "${PACKAGE}" | grep ${PACKAGE} | sed -e "s|${PACKAGE}-|${PACKAGE}§|" -e 's/[\s]*USE=/§USE=/g' | awk -F§ '{print $2}')
+    exec 2>&1
 }
 
 generate_documentation_footer() {
@@ -245,7 +249,7 @@ uninstall_package() {
 }
 
 install_docker_gen() {
-    local DOCKERGEN_VERSION="0.3.9"
+    local DOCKERGEN_VERSION="0.4.0"
     wget "http://github.com/jwilder/docker-gen/releases/download/${DOCKERGEN_VERSION}/docker-gen-linux-amd64-${DOCKERGEN_VERSION}.tar.gz"
     mkdir -p $EMERGE_ROOT/bin
     tar -C $EMERGE_ROOT/bin -xvzf "docker-gen-linux-amd64-${DOCKERGEN_VERSION}.tar.gz"
@@ -289,8 +293,9 @@ if [ -n "$PACKAGES" ]; then
     init_docs ${REPO/\images\//}
     generate_doc_package_installed "${PACKAGES}"
 
+    "${EMERGE_BIN}" ${EMERGE_OPT} --binpkg-respect-use=y -v sys-apps/baselayout
     # install packages (defined via Buildconfig.sh)
-    "${EMERGE_BIN}" ${EMERGE_OPT} --binpkg-respect-use=y -v baselayout $PACKAGES
+    "${EMERGE_BIN}" ${EMERGE_OPT} --binpkg-respect-use=y -v $PACKAGES
 
     [[ -f ${PACKAGE_INSTALLED} ]] && cat ${PACKAGE_INSTALLED} | sed -e /^virtual/d >> /etc/portage/profile/package.provided
 
