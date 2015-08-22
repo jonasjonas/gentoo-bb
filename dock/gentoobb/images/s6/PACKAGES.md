@@ -1,5 +1,5 @@
 ### gentoobb/s6:20150528
-Built: Tue Jun  2 18:27:17 CEST 2015
+Built: Wed Jun  3 14:40:39 CEST 2015
 
 Image Size: 9.939 MB
 #### Installed

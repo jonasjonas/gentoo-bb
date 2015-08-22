@@ -17,6 +17,7 @@ start () {
     docker run -d \
         --name www_mariadb \
         --hostname www_mariadb \
+        -p 3306:3306 \
         -v ${LOCAL_DB}:/var/lib/mysql/ \
         gentoobb/mariadb
 
