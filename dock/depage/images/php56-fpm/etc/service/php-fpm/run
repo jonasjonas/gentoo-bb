@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec 2>&1
+exec /usr/bin/php-fpm5.6 -y /etc/php/fpm-php5.6/php-fpm.conf -F
