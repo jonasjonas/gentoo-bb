@@ -20,7 +20,7 @@ configure_rootfs_build()
     update_use 'app-eselect/eselect-php' '+fpm'
     update_keywords 'dev-php/pecl-redis' '+~amd64'
     update_keywords 'dev-php/pecl-memcache' '+~amd64'
-    #update_keywords 'dev-php/pecl-ssh2' '+~amd64'
+    update_keywords 'dev-php/pecl-ssh2' '+~amd64'
 
     # skip bash, perl, autogen. pulled in as dep since php 5.5.22
     provide_package app-shells/bash dev-lang/perl sys-devel/autogen
