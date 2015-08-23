@@ -5,6 +5,7 @@ ADD rootfs.tar /
 
 ADD etc /etc
 
-RUN chmod +x $(find /etc/service -name run) && ln -s /etc/service/php-fpm /service && \
+RUN useradd -s /bin/false -u 101 -c "added by dockerfile for php-fpm" -d /var/www/ www-data && \
+    chmod +x $(find /etc/service -name run) && ln -s /etc/service/php-fpm /service && \
     if [ ! -f /usr/bin/php ]; then ln -s /usr/bin/php5.6 /usr/bin/php; fi && \
     curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/bin/composer
