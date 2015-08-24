@@ -1,0 +1,4 @@
+FROM depage/php-5.6
+MAINTAINER ${MAINTAINER}
+
+ADD rootfs.tar /
