@@ -1,4 +1,4 @@
-FROM gentoobb/openssl
+FROM ${NAMESPACE}/openssl
 MAINTAINER ${MAINTAINER}
 
 ADD rootfs.tar /
